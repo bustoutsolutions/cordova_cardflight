@@ -23,25 +23,47 @@ function CardFlight() {
 CardFlight.prototype.configure = function(options) {
   var successCallback = function() {
     console.log("SUCCESSFULLY SET TOKENS");
-  };
+  }
   var errorCallback = function() {
     console.log("ERROR SETTING TOKENS");
-}
+  }
   this.setApiTokens(successCallback, errorCallback, options);
 }
 
 CardFlight.prototype.initialize = function() {
+  var _this = this;
 
-  var successCallback = function() {
-    console.log("startOnReaderAttached Successful");
+  var attachedSuccessCallback = function() {
+    console.log("startOnReaderAttached Successful", _this);
   };
-  var errorCallback = function() {
+  var attachedErrorCallback = function() {
     console.log("startOnReaderAttached failure");
   }
-  this.startOnReaderAttached(successCallback, errorCallback);
-  this.startOnReaderConnected(successCallback, errorCallback);
-  this.startOnReaderDisconnected(successCallback, errorCallback);
-  this.startOnReaderConnecting(successCallback, errorCallback);
+  this.startOnReaderAttached(attachedSuccessCallback, attachedErrorCallback);
+
+  var readerConnectedSuccess = function () {
+    console.log("startOnReaderConnected Successful", _this);
+  }
+  var readerConnectedFail = function () {
+    console.log("startOnReaderConnected failure");
+  }
+  this.startOnReaderConnected(readerConnectedSuccess, readerConnectedFail);
+
+  var readerDisconnectedSuccess = function() {
+    console.log("startOnReaderDisconnected Successful", _this);
+  }
+  var readerDisconnectedFail = function() {
+    console.log("startOnReaderDisconnected fail");
+  }
+  this.startOnReaderDisconnected(readerDisconnectedSuccess, readerDisconnectedFail);
+
+  var readerConnectingSuccess = function() {
+    console.log("startOnReaderConnecting Successful", _this);
+  }
+  var readerConnectingFail = function() {
+    console.log("startOnReaderConnecting fail");
+  }
+  this.startOnReaderConnecting(readerConnectingSuccess, readerConnectingFail);
 
   channel.onCordovaCardFlightReady.fire();
 }
@@ -70,5 +92,5 @@ CardFlight.prototype.startOnReaderDisconnected = function(successCallback, error
 CardFlight.prototype.startOnReaderConnecting = function(successCallback, errorCallback) {
     exec(successCallback, errorCallback, "CDVCardFlight", "startOnReaderConnecting", []);
 };
-               
+
 module.exports = new CardFlight();
