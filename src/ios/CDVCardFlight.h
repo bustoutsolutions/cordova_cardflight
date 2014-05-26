@@ -10,6 +10,7 @@
 }
 
 + (NSString*)cordovaVersion;
+extern NSString * const CardType_toString[];
 
 - (void)setApiTokens:(CDVInvokedUrlCommand*)command;
 - (void)swipeCard:(CDVInvokedUrlCommand*)command;

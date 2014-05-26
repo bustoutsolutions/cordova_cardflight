@@ -28,21 +28,21 @@
 @property (nonatomic) NSString *onReaderConnectedCallbackId;
 @property (nonatomic) NSString *onReaderDisconnectedCallbackId;
 @property (nonatomic) NSString *onReaderConnectingCallbackId;
+@property (nonatomic) NSString *onSwipeCompleteCallbackId;
 @end
 
 @implementation CDVCardFlight
-@synthesize onReaderAttachedCallbackId, onReaderConnectedCallbackId, onReaderDisconnectedCallbackId, onReaderConnectingCallbackId;
+@synthesize onReaderAttachedCallbackId, onReaderConnectedCallbackId, onReaderDisconnectedCallbackId, onReaderConnectingCallbackId, onSwipeCompleteCallbackId;
 
 
 - (void)setApiTokens:(CDVInvokedUrlCommand*)command {
     NSString* apiToken = [command.arguments objectAtIndex:0];
     NSString* accountToken = [command.arguments objectAtIndex:1];
     CDVPluginResult* pluginResult = nil;
-
     [[CardFlight sharedInstance] setApiToken:apiToken accountToken:accountToken];
 
     NSLog(@"API TOKEN: %@ ACCOUNT TOKEN: %@\n", [[CardFlight sharedInstance] getApiToken], [[CardFlight sharedInstance] getAccountToken]);
-    
+
     _reader = [[CFTReader alloc] initAndConnect];
     if (_reader) {
       [_reader setDelegate:self];
@@ -79,12 +79,21 @@
 
 - (void)readerCardResponse:(CFTCard *)card withError:(NSError *)error {
     if (error) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CardFlight" message:error.localizedDescription delegate:self 
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"CardFlight" message:error.localizedDescription delegate:self
                                               cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [alert show];
     } else {
         _card = card;
-        NSLog(@"IN RESPONSE %@", _card.name);
+        NSLog(@"SWIPE RESPONSE %@", _card.name);
+        if (self.onSwipeCompleteCallbackId) {
+          CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                                    messageAsDictionary:@{@"name": _card.name, @"last4": _card.last4,
+                                                        @"cardType": CardType_toString[_card.cardType],
+                                                        @"expirationMonth": [NSNumber numberWithInt: _card.expirationMonth],
+                                                        @"expirationYear": [NSNumber numberWithInt: _card.expirationYear]
+                                                      } ];
+          [self.commandDelegate sendPluginResult:result callbackId:self.onSwipeCompleteCallbackId];
+        }
         [_card tokenizeCardWithSuccess:^{
             NSLog(@"Card Token:  %@\n", _card.cardToken);
             _readerPluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
@@ -145,7 +154,7 @@
     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:result callbackId:self.onReaderDisconnectedCallbackId];
   }
-} 
+}
 
 
 - (void)readerIsConnected:(BOOL)isConnected withError:(NSError *)error {
@@ -208,9 +217,24 @@
     NSLog(@"called startOnReaderConnecting");
   }
 
+// Failure callback is not used
+- (void)setOnSwipeCompleteCallbacks:(CDVInvokedUrlCommand*)command {
+    onSwipeCompleteCallbackId = command.callbackId;
+    NSLog(@"called startOnSwipeComplete");
+  }
+
 + (NSString*)cordovaVersion
 {
     return CDV_VERSION;
 }
-@end
 
+NSString * const CardType_toString[] = {
+    [UNKNOWN] = @"UNKNOWN",
+    [VISA] = @"VISA",
+    [MASTERCARD] = @"MASTERCARD",
+    [AMEX] = @"AMEX",
+    [DINERS] = @"DINERS",
+    [DISCOVER] = @"DISCOVER",
+    [JCB] = @"JCB"
+};
+@end

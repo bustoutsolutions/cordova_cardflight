@@ -96,4 +96,8 @@ CardFlight.prototype.startOnReaderConnecting = function(successCallback, errorCa
     exec(successCallback, errorCallback, "CDVCardFlight", "startOnReaderConnecting", []);
 };
 
+CardFlight.prototype.setOnSwipeCompleteCallbacks = function(successCallback, errorCallback) {
+    exec(successCallback, errorCallback, "CDVCardFlight", "setOnSwipeCompleteCallbacks", []);
+};
+
 module.exports = new CardFlight();
