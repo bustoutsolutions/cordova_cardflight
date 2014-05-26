@@ -73,8 +73,11 @@ CardFlight.prototype.setApiTokens = function(successCallback, errorCallback, opt
     exec(successCallback, errorCallback, "CDVCardFlight", "setApiTokens", [options.apiToken, options.accountToken]);
 };
 
-CardFlight.prototype.beginSwipe = function(successCallback, errorCallback) {
-    exec(successCallback, errorCallback, "CDVCardFlight", "swipeCard", []);
+CardFlight.prototype.beginSwipe = function(successCallback, errorCallback, opts) {
+    if(! 'swipeMessage' in opts) {
+      opts.swipeMessage = "Swipe Card Please";
+    }
+    exec(successCallback, errorCallback, "CDVCardFlight", "swipeCard", [opts.swipeMessage]);
 };
 
 CardFlight.prototype.startOnReaderAttached = function(successCallback, errorCallback) {

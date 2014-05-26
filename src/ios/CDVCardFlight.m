@@ -50,16 +50,22 @@
     } else {
       pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
     }
-    
+
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 
 - (void)swipeCard:(CDVInvokedUrlCommand*)command {
-    [_reader beginSwipeWithMessage:@"Swipe Card"];
-    
+  NSString* _popupTitle = nil;
+    if([[command.arguments objectAtIndex:0] isEqualToString:@"none"]) {
+      [_reader beginSwipeWithMessage:nil];
+    }
+    else {
+      [_reader beginSwipeWithMessage:[command.arguments objectAtIndex:0]];
+    }
+
+
     // Here wait for the cardResponse to complete via block
-    
     __weak CDVCardFlight *weakSelf = self;
     readerDone = ^{
         [weakSelf.commandDelegate sendPluginResult:weakSelf.readerPluginResult
