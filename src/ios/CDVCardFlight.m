@@ -162,7 +162,7 @@
     NSLog(@"CallbackId %@", self.onReaderConnectedCallbackId);
     CDVPluginResult* result;
 
-    if (self.onReaderConnectingCallbackId) {
+    if (self.onReaderConnectedCallbackId) {
       if (isConnected) {
         NSLog(@"READER IS CONNECTED");
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
