@@ -220,7 +220,7 @@
 // Failure callback is not used
 - (void)setOnSwipeCompleteCallbacks:(CDVInvokedUrlCommand*)command {
     onSwipeCompleteCallbackId = command.callbackId;
-    NSLog(@"called startOnSwipeComplete");
+    NSLog(@"called setOnSwipeCompleteCallbacks");
   }
 
 + (NSString*)cordovaVersion
