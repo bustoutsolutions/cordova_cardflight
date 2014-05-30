@@ -3,16 +3,9 @@
 ## Configuration
 
 ```javascript
-cardFlight.configure(options)
-```
-
-### Example
-
-```javascript
 cardFlight.configure({
   apiToken: "<Card Flight API Token>",
-  accountToken: "<Account Token>",
-  tokenize: true
+  accountToken: "<Merchant Account Token>"
 });
 ```
 
@@ -22,20 +15,30 @@ cardFlight.configure({
 cardFlight.beginSwipe(func(<card>), func(<error>)[, options])
 ```
 
+Pass the options `{swipeMessage: 'none'}` to beginSwipe to swipe without a popup message (the CardFlight `beginSwipeWithMessage:nil`).
+
 ### Example
 
+The callback provided to setCallbackOnSwipeComplete returns general card info — card.name, .last4, .cardType, .expirationMonth, .expirationYear. If the swipe is successful, the card is tokenized and the success callback provided to beginSwipe is called.
+
 ```javascript
-var success = function (card) {
-  console.log("swipe successful", card.cardToken);
+
+var swipeCallback = function (card) {
+  console.log("swipe successful", card);
+}
+cardFlight.setCallbackOnSwipeComplete(swipeCallback)
+
+// beginSwipe callback returns after tokenize, returns only card.cardToken
+var successCallback = function (card) {
+  console.log("Tokenize successful", card.cardToken);
 }
 
-var error = function (error) {
+var errorCallback = function (error) {
   console.log("swipe error", error.message)
 }
 
-cardFlight.beginSwipe(success, error, { 
-  swipeMessage: "Begin Swipe",
-  cancelDialogButtonText: "Okay"
+cardFlight.beginSwipe(successCallback, errorCallback, {
+  swipeMessage: "Begin Swipe"
 });
 ```
 
