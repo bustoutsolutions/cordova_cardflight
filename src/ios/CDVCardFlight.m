@@ -170,7 +170,7 @@
           NSLog(@"ERROR CODE: %i", error.code);
           result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
       }
-      [self.commandDelegate sendPluginResult:result callbackId:self.onReaderDisconnectedCallbackId];
+      [self.commandDelegate sendPluginResult:result callbackId:self.onReaderConnectedCallbackId];
     }
 }
 
