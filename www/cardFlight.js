@@ -34,40 +34,33 @@ CardFlight.prototype.initialize = function() {
   var _this = this;
 
   var attachedSuccessCallback = function() {
-    console.log("startOnReaderAttached Successful", _this);
+    console.log("CardFlight: ReaderAttached", _this);
   };
-  var attachedErrorCallback = function() {
-    console.log("startOnReaderAttached failure");
-  }
-  this.startOnReaderAttached(attachedSuccessCallback, attachedErrorCallback);
+  this.setCallbackOnReaderAttached(attachedSuccessCallback);
 
   var readerConnectedSuccess = function () {
-    console.log("startOnReaderConnected Successful", _this);
+    console.log("CardFlight: ReaderConnected", _this);
   }
   var readerConnectedFail = function () {
-    console.log("startOnReaderConnected failure");
+    console.log("CardFlight: ReaderConnected Failure");
   }
-  this.startOnReaderConnected(readerConnectedSuccess, readerConnectedFail);
+  this.setCallbackOnReaderConnected(readerConnectedSuccess, readerConnectedFail);
 
   var readerDisconnectedSuccess = function() {
-    console.log("startOnReaderDisconnected Successful", _this);
+    console.log("CardFlight: ReaderDisconnected", _this);
   }
-  var readerDisconnectedFail = function() {
-    console.log("startOnReaderDisconnected fail");
-  }
-  this.startOnReaderDisconnected(readerDisconnectedSuccess, readerDisconnectedFail);
+  this.setCallbackOnReaderDisconnected(readerDisconnectedSuccess);
 
   var readerConnectingSuccess = function() {
-    console.log("startOnReaderConnecting Successful", _this);
+    console.log("CardFlight: ReaderConnecting", _this);
   }
-  var readerConnectingFail = function() {
-    console.log("startOnReaderConnecting fail");
-  }
-  this.startOnReaderConnecting(readerConnectingSuccess, readerConnectingFail);
+  this.setCallbackOnReaderConnecting(readerConnectingSuccess);
 
   channel.onCordovaCardFlightReady.fire();
 }
 
+//  An empty callback to pass into cordova.exec
+CardFlight.prototype.nullCallback = function() {};
 
 CardFlight.prototype.setApiTokens = function(successCallback, errorCallback, options) {
     exec(successCallback, errorCallback, "CDVCardFlight", "setApiTokens", [options.apiToken, options.accountToken]);
@@ -80,24 +73,24 @@ CardFlight.prototype.beginSwipe = function(successCallback, errorCallback, opts)
     exec(successCallback, errorCallback, "CDVCardFlight", "swipeCard", [opts.swipeMessage]);
 };
 
-CardFlight.prototype.startOnReaderAttached = function(successCallback, errorCallback) {
-    exec(successCallback, errorCallback, "CDVCardFlight", "startOnReaderAttached", []);
+CardFlight.prototype.setCallbackOnReaderAttached = function(successCallback) {
+    exec(successCallback, CardFlight.prototype.nullCallback, "CDVCardFlight", "setCallbackOnReaderAttached", []);
 };
 
-CardFlight.prototype.startOnReaderConnected = function(successCallback, errorCallback) {
-    exec(successCallback, errorCallback, "CDVCardFlight", "startOnReaderConnected", []);
+CardFlight.prototype.setCallbackOnReaderConnected = function(successCallback, errorCallback) {
+    exec(successCallback, errorCallback, "CDVCardFlight", "setCallbackOnReaderConnected", []);
 };
 
-CardFlight.prototype.startOnReaderDisconnected = function(successCallback, errorCallback) {
-    exec(successCallback, errorCallback, "CDVCardFlight", "startOnReaderDisconnected", []);
+CardFlight.prototype.setCallbackOnReaderDisconnected = function(successCallback) {
+    exec(successCallback, CardFlight.prototype.nullCallback, "CDVCardFlight", "setCallbackOnReaderDisconnected", []);
 };
 
-CardFlight.prototype.startOnReaderConnecting = function(successCallback, errorCallback) {
-    exec(successCallback, errorCallback, "CDVCardFlight", "startOnReaderConnecting", []);
+CardFlight.prototype.setCallbackOnReaderConnecting = function(successCallback) {
+    exec(successCallback, CardFlight.prototype.nullCallback, "CDVCardFlight", "setCallbackOnReaderConnecting", []);
 };
 
-CardFlight.prototype.setOnSwipeCompleteCallbacks = function(successCallback, errorCallback) {
-    exec(successCallback, errorCallback, "CDVCardFlight", "setOnSwipeCompleteCallbacks", []);
+CardFlight.prototype.setCallbackOnSwipeComplete = function(successCallback) {
+    exec(successCallback, CardFlight.prototype.nullCallback, "CDVCardFlight", "setCallbackOnSwipeComplete", []);
 };
 
 module.exports = new CardFlight();
