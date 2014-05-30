@@ -178,41 +178,21 @@
 
 - (void)setCallbackOnReaderAttached:(CDVInvokedUrlCommand*)command {
     onReaderAttachedCallbackId = command.callbackId;
-    CDVPluginResult* pluginResult = nil;
-    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [pluginResult setKeepCallbackAsBool:YES];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    NSLog(@"called startOnReaderAttached");
     NSLog(@"called setCallbackOnReaderAttached");
   }
 
 - (void)setCallbackOnReaderDisconnected:(CDVInvokedUrlCommand*)command {
     onReaderDisconnectedCallbackId = command.callbackId;
-    CDVPluginResult* pluginResult = nil;
-    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [pluginResult setKeepCallbackAsBool:YES];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    NSLog(@"called startOnReaderDisconnected");
     NSLog(@"called setCallbackOnReaderDisconnected");
   }
 
 - (void)setCallbackOnReaderConnected:(CDVInvokedUrlCommand*)command {
     onReaderConnectedCallbackId = command.callbackId;
-    CDVPluginResult* pluginResult = nil;
-    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [pluginResult setKeepCallbackAsBool:YES];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    NSLog(@"called startOnReaderConnected");
     NSLog(@"called setCallbackOnReaderConnected");
   }
 
 - (void)setCallbackOnReaderConnecting:(CDVInvokedUrlCommand*)command {
     onReaderConnectingCallbackId = command.callbackId;
-    CDVPluginResult* pluginResult = nil;
-    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [pluginResult setKeepCallbackAsBool:YES];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    NSLog(@"called startOnReaderConnecting");
     NSLog(@"called setCallbackOnReaderConnecting");
   }
 
