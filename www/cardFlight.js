@@ -66,6 +66,10 @@ CardFlight.prototype.setApiTokens = function(successCallback, errorCallback, opt
     exec(successCallback, errorCallback, "CDVCardFlight", "setApiTokens", [options.apiToken, options.accountToken]);
 };
 
+CardFlight.prototype.cancelSwipe = function() {
+  exec(CardFlight.prototype.nullCallback, CardFlight.prototype.nullCallback, "CDVCardFlight", "cancelSwipe", []);
+};
+
 CardFlight.prototype.beginSwipe = function(successCallback, errorCallback, opts) {
     if(! 'swipeMessage' in opts) {
       opts.swipeMessage = "Swipe Card Please";

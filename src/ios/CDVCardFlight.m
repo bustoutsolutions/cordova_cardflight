@@ -54,6 +54,10 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+- (void)cancelSwipe:(CDVInvokedUrlCommand*)command {
+  [_reader cancelSwipeWithMessage:nil];
+  NSLog(@"SWIPE CANCELLED");
+}
 
 - (void)swipeCard:(CDVInvokedUrlCommand*)command {
   NSString* _popupTitle = nil;

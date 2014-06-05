@@ -14,6 +14,7 @@ extern NSString * const CardType_toString[];
 
 - (void)setApiTokens:(CDVInvokedUrlCommand*)command;
 - (void)swipeCard:(CDVInvokedUrlCommand*)command;
+- (void)cancelSwipe:(CDVInvokedUrlCommand*)command;
 - (void)setCallbackOnReaderAttached:(CDVInvokedUrlCommand*)command;
 - (void)setCallbackOnReaderDisconnected:(CDVInvokedUrlCommand*)command;
 - (void)setCallbackOnReaderConnected:(CDVInvokedUrlCommand*)command;
