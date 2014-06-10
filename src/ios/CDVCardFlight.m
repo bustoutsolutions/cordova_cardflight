@@ -147,6 +147,7 @@
   // fire corresponding callback id for onReaderAttached
   if (self.onReaderDisconnectedCallbackId) {
     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [result setKeepCallbackAsBool:YES];
     [self.commandDelegate sendPluginResult:result callbackId:self.onReaderDisconnectedCallbackId];
   }
 }
@@ -156,6 +157,7 @@
   NSLog(@"CallbackId %@", self.onReaderConnectingCallbackId);
   if (self.onReaderConnectingCallbackId) {
     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [result setKeepCallbackAsBool:YES];
     [self.commandDelegate sendPluginResult:result callbackId:self.onReaderConnectingCallbackId];
   }
 }
@@ -174,6 +176,7 @@
           NSLog(@"ERROR CODE: %i", error.code);
           result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
       }
+      [result setKeepCallbackAsBool:YES];
       [self.commandDelegate sendPluginResult:result callbackId:self.onReaderConnectedCallbackId];
     }
 }

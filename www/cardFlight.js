@@ -31,43 +31,21 @@ CardFlight.prototype.configure = function(options) {
 }
 
 CardFlight.prototype.initialize = function() {
-  var _this = this;
-
-  var attachedSuccessCallback = function() {
-    console.log("CardFlight: ReaderAttached", _this);
-  };
-  this.setCallbackOnReaderAttached(attachedSuccessCallback);
-
-  var readerConnectedSuccess = function () {
-    console.log("CardFlight: ReaderConnected", _this);
-  }
-  var readerConnectedFail = function () {
-    console.log("CardFlight: ReaderConnected Failure");
-  }
-  this.setCallbackOnReaderConnected(readerConnectedSuccess, readerConnectedFail);
-
-  var readerDisconnectedSuccess = function() {
-    console.log("CardFlight: ReaderDisconnected", _this);
-  }
-  this.setCallbackOnReaderDisconnected(readerDisconnectedSuccess);
-
-  var readerConnectingSuccess = function() {
-    console.log("CardFlight: ReaderConnecting", _this);
-  }
-  this.setCallbackOnReaderConnecting(readerConnectingSuccess);
+  exec(function() { cordova.fireWindowEvent("cfreaderattached") }, null, "CDVCardFlight", "setCallbackOnReaderAttached", []);
+  exec(function() { cordova.fireWindowEvent("cfreaderconnected") }, null, "CDVCardFlight", "setCallbackOnReaderConnected", []);
+  exec(function() { cordova.fireWindowEvent("cfreaderdisconnected") }, null, "CDVCardFlight", "setCallbackOnReaderDisconnected", []);
+  exec(function() { cordova.fireWindowEvent("cfreaderconnecting") }, null, "CDVCardFlight", "setCallbackOnReaderConnecting", []);
+  exec(function(data) { cordova.fireWindowEvent("cfreaderswipecomplete", data) }, null, "CDVCardFlight", "setCallbackOnSwipeComplete", []);
 
   channel.onCordovaCardFlightReady.fire();
 }
-
-//  An empty callback to pass into cordova.exec
-CardFlight.prototype.nullCallback = function() {};
 
 CardFlight.prototype.setApiTokens = function(successCallback, errorCallback, options) {
     exec(successCallback, errorCallback, "CDVCardFlight", "setApiTokens", [options.apiToken, options.accountToken]);
 };
 
 CardFlight.prototype.cancelSwipe = function() {
-  exec(CardFlight.prototype.nullCallback, CardFlight.prototype.nullCallback, "CDVCardFlight", "cancelSwipe", []);
+  exec(null, null, "CDVCardFlight", "cancelSwipe", []);
 };
 
 CardFlight.prototype.beginSwipe = function(successCallback, errorCallback, opts) {
@@ -75,26 +53,6 @@ CardFlight.prototype.beginSwipe = function(successCallback, errorCallback, opts)
       opts.swipeMessage = "Swipe Card Please";
     }
     exec(successCallback, errorCallback, "CDVCardFlight", "swipeCard", [opts.swipeMessage]);
-};
-
-CardFlight.prototype.setCallbackOnReaderAttached = function(successCallback) {
-    exec(successCallback, CardFlight.prototype.nullCallback, "CDVCardFlight", "setCallbackOnReaderAttached", []);
-};
-
-CardFlight.prototype.setCallbackOnReaderConnected = function(successCallback, errorCallback) {
-    exec(successCallback, errorCallback, "CDVCardFlight", "setCallbackOnReaderConnected", []);
-};
-
-CardFlight.prototype.setCallbackOnReaderDisconnected = function(successCallback) {
-    exec(successCallback, CardFlight.prototype.nullCallback, "CDVCardFlight", "setCallbackOnReaderDisconnected", []);
-};
-
-CardFlight.prototype.setCallbackOnReaderConnecting = function(successCallback) {
-    exec(successCallback, CardFlight.prototype.nullCallback, "CDVCardFlight", "setCallbackOnReaderConnecting", []);
-};
-
-CardFlight.prototype.setCallbackOnSwipeComplete = function(successCallback) {
-    exec(successCallback, CardFlight.prototype.nullCallback, "CDVCardFlight", "setCallbackOnSwipeComplete", []);
 };
 
 module.exports = new CardFlight();
