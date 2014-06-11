@@ -96,6 +96,7 @@
                                                         @"expirationMonth": [NSNumber numberWithInt: _card.expirationMonth],
                                                         @"expirationYear": [NSNumber numberWithInt: _card.expirationYear]
                                                       } ];
+          [result setKeepCallbackAsBool:YES];
           [self.commandDelegate sendPluginResult:result callbackId:self.onSwipeCompleteCallbackId];
         }
         [_card tokenizeCardWithSuccess:^{
