@@ -35,7 +35,7 @@ CardFlight.prototype.initialize = function() {
   exec(function() { cordova.fireWindowEvent("cfreaderconnected") }, null, "CDVCardFlight", "setCallbackOnReaderConnected", []);
   exec(function() { cordova.fireWindowEvent("cfreaderdisconnected") }, null, "CDVCardFlight", "setCallbackOnReaderDisconnected", []);
   exec(function() { cordova.fireWindowEvent("cfreaderconnecting") }, null, "CDVCardFlight", "setCallbackOnReaderConnecting", []);
-  exec(function(data) { cordova.fireWindowEvent("cfreaderswipecomplete", data) }, null, "CDVCardFlight", "setCallbackOnSwipeComplete", []);
+  exec(function(data) { cordova.fireWindowEvent("cfreaderswipecomplete", {card: data}) }, null, "CDVCardFlight", "setCallbackOnSwipeComplete", []);
 
   channel.onCordovaCardFlightReady.fire();
 }
